@@ -1,11 +1,12 @@
 Summary:	An abstract soundfile decoder
 Name:		SDL_sound
 Version:	1.0.3
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://www.icculus.org/SDL_sound/downloads/%{name}-%{version}.tar.gz
 # Source0-md5:	aa09cd52df85d29bee87a664424c94b5
+Patch0:		%{name}-link.patch
 URL:		http://www.icculus.org/SDL_sound/
 BuildRequires:	SDL-devel
 BuildRequires:	autoconf
@@ -41,6 +42,7 @@ Header files and more to develop SDL_sound applications.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 rm acinclude.m4
@@ -59,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -76,6 +80,5 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libSDL_sound.so
-%{_libdir}/libSDL_sound.la
 %{_includedir}/SDL/SDL_sound.h
 
